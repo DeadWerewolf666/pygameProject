@@ -1,0 +1,90 @@
+import pygame
+
+# inicializace
+pygame.init()
+
+# Okno
+width = 800
+height = 600
+res = (width, height)
+sc = pygame.display.set_mode(res)
+
+# Barvy
+gray = (100, 100, 100)
+black = (0, 0, 0)
+white = (255, 255, 255)
+
+# Barva obrazu
+sc.fill(gray)
+
+# Text
+text1_font = pygame.font.Font("Fonts/AlteSchwabacher-lgw0.ttf", 50)
+text1 = text1_font.render("Deutchland", True, black)
+text1_rect = text1.get_rect()
+text1_rect.midtop = (width//2, 0)
+
+# Obrázek
+distance = 10
+
+char1_front_img = pygame.image.load("img/Character1/Character1_front_side.png")
+char1_back_img = pygame.image.load("img/Character1/Character1_back_side.png")
+char1_left_img = pygame.image.load("img/Character1/Character1_left_side.png")
+char1_right_img = pygame.image.load("img/Character1/Character1_right_side.png")
+char1_actual_img = pygame.image.load("img/Character1/Character1_front_side.png")
+
+char1_front_rect = char1_front_img.get_rect()
+char1_back_rect = char1_back_img.get_rect()
+char1_left_rect = char1_left_img.get_rect()
+char1_right_rect = char1_right_img.get_rect()
+char1_actual_rect = char1_actual_img.get_rect()
+
+char1_front_rect.midtop = (width//2, 0)
+char1_back_rect.midbottom = (width//2, height)
+char1_left_rect.topleft = (0, height//2)
+char1_right_rect.topright = (width, height//2)
+char1_actual_rect.center = (width//2, height//2)
+
+
+"""# Hidba na pozadí
+pygame.mixer.music.load("sounds/Serbia Strong- 8 bit.mp3")
+pygame.mixer.music.play()"""
+
+# Hlavní cyklus
+lets_continue = True
+while lets_continue:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            lets_continue = False
+        if event.type == pygame.KEYDOWN:
+            key = pygame.key.name(event.key)
+            if key == "w":
+                char1_actual_img = char1_back_img
+                char1_actual_rect.y -= distance
+            elif key == "s":
+                char1_actual_img = char1_front_img
+                char1_actual_rect.y += distance
+            elif key == "a":
+                char1_actual_img = char1_left_img
+                char1_actual_rect.x -= distance
+            elif key == "d":
+                char1_actual_img = char1_right_img
+                char1_actual_rect.x += distance
+
+    # Výpis
+
+    # Vyplnění obrazovky
+    sc.fill(gray)
+
+    # Zobrazení
+    sc.blit(text1, text1_rect)
+    sc.blit(char1_front_img, char1_front_rect)
+    sc.blit(char1_back_img, char1_back_rect)
+    sc.blit(char1_left_img, char1_left_rect)
+    sc.blit(char1_right_img, char1_right_rect)
+    sc.blit(char1_actual_img, char1_actual_rect)
+
+    # Update obrazu
+    pygame.display.update()
+
+# ukončení
+pygame.quit()
